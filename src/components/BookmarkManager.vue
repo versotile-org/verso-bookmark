@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import DOMPurify from 'dompurify';
 
 interface Bookmark {
   url: string
@@ -32,10 +31,9 @@ const onclickRemove = (id: string) => {
 const endRename = (id: string, name: string) => {
   const bookmark = bookmarks.value.find(b => b.url === id)
   // Sanitize the name to prevent XSS
-  const sanitized = DOMPurify.sanitize(name)
   if (bookmark) {
     bookmark.isRenaming = false
-    window.prompt('VERSO::BOOKMARK_RENAME::' + id + '::' + sanitized)
+    window.prompt('VERSO::BOOKMARK_RENAME::' + id + '::' + name)
   }
 }
 const onclickStartRename = (id: string) => {
@@ -67,7 +65,7 @@ setInterval(() => {
       <div v-for="bookmark in bookmarks" :key="bookmark.url" class="bookmark-item">
         <div class="name-url-row">
           <div v-if="!bookmark.isRenaming" class="name" @click="onclickNavigate(bookmark.url)">
-            <a :href="bookmark.url">{{ bookmark.name }}</a>
+            <a :href="bookmark.url" v-html="bookmark.name"></a>
           </div>
           <input v-if="bookmark.isRenaming" @keyup.enter="endRename(bookmark.url, bookmark.name)" class="rename-input" v-model="bookmark.name">
           <div class="url">{{ bookmark.url }}</div>
