@@ -49,7 +49,6 @@ const onclickNavigate = (url: string) => {
   window.prompt(`VERSO::NAVIGATE_TO::${url}`);
 }
 
-
 setInterval(() => {
   // if no bookmark is renaming, request bookmarks
   if (!bookmarks.value.some(b => b.isRenaming)) {
@@ -65,17 +64,14 @@ setInterval(() => {
       <div v-for="bookmark in bookmarks" :key="bookmark.url" class="bookmark-item">
         <div class="name-url-row">
           <div v-if="!bookmark.isRenaming" class="name" @click="onclickNavigate(bookmark.url)">
-            <a :href="bookmark.url" v-html="bookmark.name"></a>
+            <a :href="bookmark.url" v-text="bookmark.name"></a>
           </div>
           <input v-if="bookmark.isRenaming" @keyup.enter="endRename(bookmark.url, bookmark.name)" class="rename-input" v-model="bookmark.name">
           <div class="url">{{ bookmark.url }}</div>
         </div>
         <div class="status-row">
-          <button v-if="!bookmark.isRenaming" @click="onclickStartRename(bookmark.url)" class="action-btn" :class="{'inactive' : bookmarks.some(b => b.isRenaming) && !bookmark.isRenaming}">
+          <button @click="onclickStartRename(bookmark.url)" class="action-btn" :class="{'inactive' : bookmarks.some(b => b.isRenaming)}">
             Rename
-          </button>
-          <button v-if="bookmark.isRenaming" @click="endRename(bookmark.url, bookmark.name)" class="action-btn">
-            Confirm
           </button>
           <button @click="onclickRemove(bookmark.url)" class="action-btn" :class="{'inactive' : bookmarks.some(b => b.isRenaming)}">
             Remove
@@ -160,10 +156,6 @@ setInterval(() => {
     cursor: pointer;
     font-size: 0.875rem;
     transition: background-color 0.2s;
-
-    &:hover {
-      // background-color: #b91c1c;
-    }
   }
   .inactive {
     background-color: #4b5563;
