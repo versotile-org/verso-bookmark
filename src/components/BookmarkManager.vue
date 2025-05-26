@@ -30,7 +30,6 @@ const onclickRemove = (id: string) => {
 
 const endRename = (id: string, name: string) => {
   const bookmark = bookmarks.value.find(b => b.url === id)
-  // Sanitize the name to prevent XSS
   if (bookmark) {
     bookmark.isRenaming = false
     window.prompt('VERSO::BOOKMARK_RENAME::' + id + '::' + name)
