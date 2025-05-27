@@ -1,4 +1,4 @@
-# Verso Download History Page
+# Verso Bookmark Manager Page
 
 ## Recommended IDE Setup
 
